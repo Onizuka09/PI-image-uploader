@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.secret_key = 'moktar'
-feh_command = ['feh --zoom 100 -F','']
+feh_command = ['feh', '--zoom 100','-F','']
 feh_process = subprocess.Popen(feh_command)
 @app.route('/',methods=['GET', 'POST'])
 def route():
@@ -21,8 +21,7 @@ def route():
                 file.save(path)
                 
                 flash("File uploaded successfully.", 'success') 
-                feh_command[1]=path
-                # print(feh_command)
+                feh_command[3]=path
                 feh_process = subprocess.Popen(feh_command)
                 
                 return redirect(url_for('route')) 
