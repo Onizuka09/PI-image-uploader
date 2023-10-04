@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.secret_key = 'moktar'
-feh_command = ['feh','']
+feh_command = ['feh --zoom 100 -F','']
 feh_process = subprocess.Popen(feh_command)
 @app.route('/',methods=['GET', 'POST'])
 def route():
