@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image loader </title>
+</head>
+<body>
+    <p>Welcom to the Image Loader app: </p>
+    <br>
+    <form  method="POST" enctype="multipart/form-data">
+        <label for="Uploadimage">Upload image:</label>
+        <input type="file" name="Uploadimage" accept=".jpg, .jpeg, .png" required>
+        <br>
+        <input type="submit" value="Upload">
+    </form>
+    <br>
+    <button type="button">Display image</button>
+    <br>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul class="flashes">
+          {% for message in messages %}
+            <li>{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+</body>
+</html>
