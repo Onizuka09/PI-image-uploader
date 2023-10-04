@@ -7,8 +7,10 @@ This is an IoT project: it permits a user to access a web app to upload an image
 - The rpi is connected to a local network 
 
 ## Technologies: 
-web dev (front end): HTML/CSS/JAVASCRIPT
-        back end : flask (python) 
+web dev:
+
+- front end: HTML/CSS/JAVASCRIPT
+- back end : flask (python) 
 
 ## Installation 
 1- Clone repo `git clone https://github.com/Onizuka09/PI-image-uploader.git`
