@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, render_template, request, flash, redirect, url_for
 import os
+from apscheduler.schedulers.background import BackgroundScheduler
 import subprocess
 from flask_cors import CORS
 UPLOAD_FOLDER = 'uploads'
@@ -9,6 +10,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.secret_key = 'moktar'
 feh_command = ['feh', '--zoom 100', '-F', '']
 feh_process = subprocess.Popen(feh_command, shell=True)
+scheduler = BackgroundScheduler()
 
 # Upload an image
 
@@ -29,13 +31,8 @@ def upload():
         # start the upload
         if file:
             filename = file.filename
-            feh_process.terminate()
             path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             file.save(path)
-            if (feh_process):
-                feh_process.terminate()
-            feh_command[3] = path
-            feh_process = subprocess.Popen(feh_command, shell=True)
             print("uploaded successfuly")
             return jsonify({"message": "File uploaded successfully"}), 200
     return jsonify({"message": "Invalid request"}), 400
@@ -64,20 +61,56 @@ def getAllImages():
 
 @app.route('/displayImage', methods=['POST'])
 def displayImage():
+    global feh_process
     if request.method == 'POST':
         data = request.get_json()
-        selected_images = data["SelectedImages"][0]
-        print(selected_images)
-        path = os.path.join(app.config['UPLOAD_FOLDER'], selected_images)
-        if (feh_process):
-            feh_process.terminate()
-        feh_command[3] = path
-        feh_process = subprocess.Popen(feh_command, shell=True)
-        print("uploaded successfuly")
-        return jsonify({"message": "Selected images received and processed"}), 200
+        selected_images = data["SelectedImages"]
+        if not selected_images:
+            return jsonify({"message": "No selected images"}), 400
+        print(len(selected_images))
+        if len(selected_images) == 1:
+            if scheduler and scheduler.running:
+                stopImageSwitching()
+            path = os.path.join(
+                app.config['UPLOAD_FOLDER'], selected_images[0])
+            if (feh_process):
+                feh_process.terminate()
+            feh_command[3] = path
+            feh_process = subprocess.Popen(feh_command, shell=True)
+            print("displayed single image successfuly")
+            return jsonify({"message": "Selected Image Displayed"}), 200
+        else:
+            scheduler.resume()
+            scheduler.add_job(ImageSwitcher, 'interval',
+                              args=(selected_images,), seconds=10)
+            return jsonify({"message": "Selected images received and processed"}), 200
     return jsonify({"message": "Invalid request"}), 400
 
 
+def ImageSwitcher(selectedImages):
+    global feh_process
+    path = os.path.join(app.config['UPLOAD_FOLDER'], selectedImages[0])
+    if (feh_process):
+        feh_process.terminate()
+    feh_command[3] = path
+    feh_process = subprocess.Popen(feh_command, shell=True)
+    element = selectedImages.pop(0)
+    selectedImages.append(element)
+    print("image switched")
+
+
+@app.route('/stopImageSwitching', methods=['POST'])
+def stopImageSwitching():
+    global scheduler
+    if scheduler and scheduler.running:
+        scheduler.pause()
+        print("Image switching stopped")
+        return jsonify({"message": "Image switching stopped"}), 200
+    else:
+        return jsonify({"message": "Image switching is not active"}), 400
+
+
 if __name__ == '__main__':
-  #  sio.run(app,host='0.0.0.0',debug=True)
+    #  sio.run(app,host='0.0.0.0',debug=True)
+    scheduler.start()
     app.run(host='0.0.0.0')

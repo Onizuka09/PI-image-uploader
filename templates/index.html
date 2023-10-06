@@ -1,38 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="bootstrap/css/bootstrap.css" />
-    <link rel="stylesheet" href="style.css" />
-    <title>Image loader</title>
-  </head>
-  <body>
-    <p>Welcom to the Image Loader app:</p>
-    <br />
-    <form method="POST" enctype="multipart/form-data">
-      <label for="Uploadimage">Upload image:</label>
-      <input
-        type="file"
-        name="Uploadimage"
-        accept=".jpg, .jpeg, .png"
-        required
-        id="fileInput"
-      />
-      <br />
-      <input type="button" onclick="uploadImage()" value="uploadButton" />
-      <div id="response"></div>
-    </form>
-    <br />
-    <button type="button">Display image</button>
-    <br />
-    <input type="button" onclick="getAllImages()" value="fetchallimages" />
 
-    <div class="container text-center">
-      <div class="row align-items-start" id="imageGallery"></div>
-    </div>
-    <script src="upload.js"></script>
-    <script src="bootstrap/js/bootstrap.min.js"></script>
-    <script src="bootstrap/js/bootstrap.js"></script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="bootstrap/css/bootstrap.css" />
+  <link rel="stylesheet" href="style.css" />
+  <title>Image loader</title>
+</head>
+
+<body>
+  <p>Welcom to the Image Loader app:</p>
+  <br />
+  <label for="Uploadimage">Upload image:</label>
+  <input type="file" name="Uploadimage" accept=".jpg, .jpeg, .png" class="form-control" id="fileInput" />
+  <input type="button" class="btn btn-primary m-2" onclick="uploadImage()" value="uploadButton" />
+  <div id="response"></div>
+
+  <input type="button" class="btn btn-primary m-2" onclick="getAllImages()" value="fetchallimages" />
+
+  <div class="container text-center" id="gallerycontainer">
+    <div class="row align-items-start" id="imageGallery"></div>
+  </div>
+  <input type="button" id="stopButton" onclick="stopImageSwitching()" class="btn btn-danger" value="Stop
+      Image Switching" />
+  <div id="stopimagediv"></div>
+  <script src="upload.js"></script>
+  <script src="bootstrap/js/bootstrap.min.js"></script>
+  <script src="bootstrap/js/bootstrap.js"></script>
+</body>
+
 </html>
