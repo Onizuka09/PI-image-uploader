@@ -1,9 +1,10 @@
 from flask import Flask, jsonify, render_template, request, flash, redirect, url_for
 import os
 import subprocess
+from flask_cors import CORS
 UPLOAD_FOLDER = 'uploads'
 app = Flask(__name__)
-
+CORS(app)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.secret_key = 'moktar'
 feh_command = ['feh', '--zoom 100', '-F', '']
@@ -37,6 +38,43 @@ def upload():
             feh_process = subprocess.Popen(feh_command, shell=True)
             print("uploaded successfuly")
             return jsonify({"message": "File uploaded successfully"}), 200
+    return jsonify({"message": "Invalid request"}), 400
+
+# Function to get a list of all image files in the UPLOAD_FOLDER
+
+
+def get_all_images():
+    image_files = []
+    for filename in os.listdir(app.config['UPLOAD_FOLDER']):
+        if filename.lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.bmp')):
+            image_files.append(filename)
+    return image_files
+# get all images
+
+
+@app.route('/getAllImages', methods=['GET'])
+def getAllImages():
+    if request.method == 'GET':
+        images = get_all_images()
+        return jsonify({"images": images}), 200
+    return jsonify({"message": "Invalid request"}), 400
+
+# Display Seleceted image
+
+
+@app.route('/displayImage', methods=['POST'])
+def displayImage():
+    if request.method == 'POST':
+        data = request.get_json()
+        selected_images = data["SelectedImages"][0]
+        print(selected_images)
+        path = os.path.join(app.config['UPLOAD_FOLDER'], selected_images)
+        if (feh_process):
+            feh_process.terminate()
+        feh_command[3] = path
+        feh_process = subprocess.Popen(feh_command, shell=True)
+        print("uploaded successfuly")
+        return jsonify({"message": "Selected images received and processed"}), 200
     return jsonify({"message": "Invalid request"}), 400
 
 
