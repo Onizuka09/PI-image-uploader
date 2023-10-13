@@ -6,8 +6,12 @@ from flask_cors import CORS
 UPLOAD_FOLDER = 'uploads'
 app = Flask(__name__)
 CORS(app)
+
+
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.secret_key = 'moktar'
+default_command = ['hollywood','--zoom100','-F','']
+default_process = subprocess.Popen(default_command, shell =True)
 feh_command = ['feh', '--zoom 100', '-F', '']
 feh_process = subprocess.Popen(feh_command, shell=True)
 scheduler = BackgroundScheduler()
@@ -84,6 +88,22 @@ def displayImage():
             scheduler.add_job(ImageSwitcher, 'interval',
                               args=(selected_images,), seconds=10)
             return jsonify({"message": "Selected images received and processed"}), 200
+    return jsonify({"message": "Invalid request"}), 400
+
+@app.route('/deleteImage', methods=['POST'])
+def deleteImae():
+    if request.method == 'POST':
+        data = request.get_json()
+        selected_images = data["SelectedImages"]
+        print(selected_images);
+        if not selected_images:
+            return jsonify({"message": "No selected images"}), 400
+        for i in range(len(selected_images)):
+            filename = selected_images[i]
+            path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            os.remove(path)
+        print("displayed single image successfuly")
+        return jsonify({"message": "Selected Image Displayed"}), 200
     return jsonify({"message": "Invalid request"}), 400
 
 
