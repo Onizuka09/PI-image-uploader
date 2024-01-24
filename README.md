@@ -13,7 +13,7 @@ web dev:
 - back end : flask (python) 
 
 ## Installation 
-1- Clone repo `git clone https://github.com/Onizuka09/PI-image-uploader.git`
+1- Clone repo `git clone https://github.com/Onizuka09/PI-image-uploader.git`i
 
 2- Initiate the virtual environment (linux) `source venv/bin/activate` 
 

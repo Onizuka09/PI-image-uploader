@@ -1,0 +1,19 @@
+first enable ssh from raspi-config 
+the type vi /etc/dhcpcd.config 
+in static ip adress section uncaument the line 
+static ip adress = 192.168.0.1 
+then reboot the system 
+
+
+the errors i faced: 
+ssh pi@192.168.0.10
+ssh: connect to host 192.168.0.10 port 22: Network is unreachabl
+
+
+to connect to pi via ssh etherent cable you can run 
+
+ssh pi@192.168.0.10
+ssh pi@freeways-pi.local
+
+
+this video hepd me : https://www.youtube.com/watch?v=MGDhMaWOBWs
