@@ -3,13 +3,11 @@
 
 
 app="webserver.py"
-# uploads_dir="uploads1/"
 venv_dir="my_venv"
+service_file="aa"
 
-# echo "Creating a virtual environment: $venv_dir"
-# Create uploads directory
-# mkdir -p "$(pwd)/$uploads_dir"
 setup_venv(){
+echo "Creating a virtual environment: $venv_dir"
 # Create virtual environment and install requirements
 python3 -m venv "$venv_dir"
 echo "A virtual environment $venv_dir has been set up in $(pwd)"
@@ -76,8 +74,11 @@ sed -i "s/bind_adress='.*'/bind_adress='$bind_address'/" "$app"
 
 ## 
 create_service_file(){
-read -p "enter service file name: " service_file
+
+read -p "enter service file name ((filename.service): " service_file
 # create a service file 
+service_file="$service_file"
+
 echo "creating a service file: $service_file"
 
 touch $service_file
@@ -106,16 +107,15 @@ cat $service_file
 }
 
 set_service(){
-
-echo "moving service file to /etc/systemd/system/"
+echo "moving $service_file to /etc/systemd/system/"
 # move service file /etc 
-sudo cp $(service_file) /etc/systemd/system/ 
+sudo cp $service_file /etc/systemd/system/ 
 
 # reload systemd 
 
 # start an enable the srvice 
-sudo systemctl start $(service_file)
-sudo systemctl enable $(service_file)
+sudo systemctl start $service_file
+sudo systemctl enable $service_file
 # echo " to vew the stat
 }
 
@@ -125,10 +125,17 @@ sudo systemctl enable $(service_file)
 # move the frontned and the uploads foldr to (/var/www/....)
 setup_jsfile(){
 js_file="./templates/upload.js"
-read -p "localhost (y)or ip adress (n): " input
+read -p "set ip adress as localhost (y/n): " input
 ip_address="127.0.0.1"
 if [[ $input == "n" ]]; then
-    ip_address=$(ip route | awk 'NR==1 {print $3}');
+    # ip_address=$(ip route | awk 'NR==1 {print $3}');
+    ip_address=$(hostname -I | awk 'NR==1 {print $2}')
+    if [[ -z "$ip_address" ]]; then 
+        echo "unable to retrieve a viable ip adress";
+        echo "run ifconfig and check ip adress under wlan0";
+        read -p "your IP adress please: " ip_address;
+        ip_address="$ip_address" ;
+        fi
     echo "Using IP address: $ip_address";
 fi
 
@@ -145,5 +152,8 @@ install_dependencisies
 setup_venv
 update_pythonprog
 setup_jsfile
-create_service_file
+create_service_file 
 set_service
+ 
+echo "The server is setup"
+echo "you can connect via http://$ip_address"
