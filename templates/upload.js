@@ -1,7 +1,7 @@
-ip = "127.0.0.1" ; 
-port = "5000"; 
-url = "http://"+ip+":"+port; 
-uploads_folder= "uploads/"; 
+ip="127.0.0.1"; 
+port="5000"; 
+url ="http://"+ip+":"+port; 
+uploads_folder="uploads/"; 
 console.log(url); 
 function uploadImage() {
     const fileInput = document.getElementById("fileInput");

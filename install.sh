@@ -3,16 +3,13 @@
 
 
 app="webserver.py"
-uploads_dir="uploads1/"
+# uploads_dir="uploads1/"
 venv_dir="my_venv"
-# port="5000"
-# bind_adprees="0.0.0.0:${port}"
-# ip_adress=""
-: << COMMENT
+
 # echo "Creating a virtual environment: $venv_dir"
 # Create uploads directory
-mkdir -p "$(pwd)/$uploads_dir"
-
+# mkdir -p "$(pwd)/$uploads_dir"
+setup_venv(){
 # Create virtual environment and install requirements
 python3 -m venv "$venv_dir"
 echo "A virtual environment $venv_dir has been set up in $(pwd)"
@@ -33,12 +30,13 @@ fi
 # Deactivate virtual environment when done
 #deactivate
 echo "Virtual environment deactivated"
-COMMENT
+}
+
 
 ## update files variables
 
 # updating the python file 
-
+update_pythonprog(){
 json_file="settings.json"
 
 feh_cmd="['$(jq -r '.commands_path.feh' $json_file )','$(jq -r '.args_commands.feh_args.agr1' $json_file )' , '$(jq -r '.args_commands.feh_args.agr2' $json_file )','']"
@@ -46,7 +44,7 @@ feh_cmd="['$(jq -r '.commands_path.feh' $json_file )','$(jq -r '.args_commands.f
 DF_cmd="['$(jq -r '.commands_path.cmatrix' $json_file )','$(jq -r '.args_commands.cmatrix_agrs.agr1' $json_file )']"
 
 
-ip_address=$(jq -r '.server_settings.ip_address' $json_file )
+# ip_address=$(jq -r '.server_settings.ip_address' $json_file )
 
 bind_address="$(jq -r '.server_settings.bind_address' $json_file ):$(jq -r '.server_settings.port' $json_file )"
 
@@ -66,18 +64,19 @@ escaped_feh_cmd=$(echo "$feh_cmd" | sed 's/\//\\\//g')
 sed -i "s/KEY='.*'/KEY='$key'/" "$app"
 
 # Update the value of DF_CMD
-sed -i "s/DF_CMD=\[.*\]/DF_CMD=$escaped_DF_cmd/" "$app"
+# sed -i "s/DF_CMD=\[.*\]/DF_CMD=$escaped_DF_cmd/" "$app"
 
 # Update the value of FEH_CMD
 sed -i "s/FEH_CMD=\[.*\]/FEH_CMD=$escaped_feh_cmd/" "$app"
 
 # Update the value of bind_address
 sed -i "s/bind_adress='.*'/bind_adress='$bind_address'/" "$app"
-
+}
 
 
 ## 
-service_file="Image_uploader.service"
+create_service_file(){
+read -p "enter service file name: " service_file
 # create a service file 
 echo "creating a service file: $service_file"
 
@@ -90,11 +89,12 @@ echo "" >> "$service_file"
 
 echo "[Service]" >> "$service_file"
 echo "WorkingDirectory=$(pwd)" >> "$service_file"
-echo "Environment=PATH=$(pwd)/$venv_dir/bin:$PATH" >> "$service_file"
+echo "Environment=PATH=$(pwd)/$venv_dir/bin:"\$""PATH"" >> "$service_file"
 echo "Environment=VIRTUAL_ENV=$(pwd)/$venv_dir" >> "$service_file"
 echo "Environment=DISPLAY=:0" >> "$service_file"
 echo "Environment=HOME=/home/$(whoami)" >> "$service_file"
 echo "ExecStart=/bin/sh -c 'cd $(pwd)/ && . $venv_dir/bin/activate && python3 webserver.py'" >> "$service_file"
+echo "Restart=always" >> $service_file
 echo "" >> "$service_file"
 
 echo "[Install]" >> "$service_file"
@@ -103,22 +103,47 @@ echo "WantedBy=multi-user.target" >> "$service_file"
 echo "fincished creating"
 
 cat $service_file
+}
 
+set_service(){
 
-
+echo "moving service file to /etc/systemd/system/"
 # move service file /etc 
-# sudo mv $(service) /etc/systemd/system/ 
+sudo cp $(service_file) /etc/systemd/system/ 
 
 # reload systemd 
 
 # start an enable the srvice 
-# sudo systemctl start $(service_file)
-# sudo systemctl enable $(service_file)
-
+sudo systemctl start $(service_file)
+sudo systemctl enable $(service_file)
+# echo " to vew the stat
+}
 
 # change el fornted in .js file, (ip_adress, port ... ) 
 
 
 # move the frontned and the uploads foldr to (/var/www/....)
+setup_jsfile(){
+js_file="./templates/upload.js"
+read -p "localhost (y)or ip adress (n): " input
+ip_address="127.0.0.1"
+if [[ $input == "n" ]]; then
+    ip_address=$(ip route | awk 'NR==1 {print $3}');
+    echo "Using IP address: $ip_address";
+fi
 
-# restart and setup ache service 
+sed -i "s/ip=\".*\"/ip=\"$ip_address\"/" "$js_file"
+echo "transfering the templates folder .. ";
+sudo cp -r templates/* /var/www/html
+}
+install_dependencisies(){
+    sudo  apt update 
+    sudo apt install appache2 cmatrix feh jq
+}
+
+install_dependencisies
+setup_venv
+update_pythonprog
+setup_jsfile
+create_service_file
+set_service

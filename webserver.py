@@ -10,7 +10,7 @@ UPLOAD_FOLDER = '/var/www/html/uploads/'
 
 
 KEY='my_KEY'
-FEH_CMD=['/usr/bin/feh','-F','']
+FEH_CMD=['/usr/bin/feh','--zoom 100' , '-F','']
 # DF_CMD=['/usr/bin/cmatrix','-m']
 DF_CMD=['/usr/bin/pwd','']
 
