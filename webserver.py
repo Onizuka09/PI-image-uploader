@@ -1,14 +1,9 @@
-
-
 from flask import Flask, jsonify, render_template, request, flash, redirect, url_for
 import os
 from apscheduler.schedulers.background import BackgroundScheduler
 import subprocess
 from flask_cors import CORS
-
 UPLOAD_FOLDER = '/var/www/html/uploads/'
-
-
 KEY='my_KEY'
 FEH_CMD=['/usr/bin/feh','--zoom 100' , '-F','']
 # DF_CMD=['/usr/bin/cmatrix','-m']
@@ -21,8 +16,6 @@ GUINICORN_CMD = ['gunicorn',
         '-b', bind_adress,  # Bind address and port
         'webserver:app'  # Replace with your actual app module and instance
     ]
-
-
 app = Flask(__name__)
 CORS(app)
 
@@ -100,7 +93,7 @@ def displayImage():
         data = request.get_json()
         selected_images = data["SelectedImages"]
         if not selected_images:
-            return jsonify({"message": "No selected images"}), 
+            return jsonify({"message": "No selected images"}), 400
         print(len(selected_images))
         if len(selected_images) == 1:
             if scheduler and scheduler.running:
@@ -166,6 +159,4 @@ if __name__ == '__main__':
     app.run(host='0.0.0.0')
     #launch_flask_app()
     # print(os.environ['DISPLAY'])
-
-	
 

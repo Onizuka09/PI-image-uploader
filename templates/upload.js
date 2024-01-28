@@ -15,7 +15,6 @@ function uploadImage() {
         formData.append('fileInput', file);
 
         // Make a POST request to your server
-
         fetch( url+'/upload', {
         //fetch('http://192.168.1.18:5000/upload', {
             method: 'POST',
