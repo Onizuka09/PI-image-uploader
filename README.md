@@ -53,8 +53,10 @@ To update the ip adress run: `./install.sh setup_jsfile`
 2- when installing the raspberry pi OS using rpi imager configure `SSH`
 
 3- in the terminal make sure you have SSH install if not (`sudo apt install ssh`) or use a tool like `putty`.
+
 4- attach the ethernet cable to the raspberry pi and your PC 
-4- establish connection:
+
+5- establish connection:
 * `ssh pi@raspberrypi.local`
 or if you are not able to connect 
 
