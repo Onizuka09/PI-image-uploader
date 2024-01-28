@@ -7,16 +7,16 @@ function uploadImage() {
     const fileInput = document.getElementById("fileInput");
     const uploadButton = document.getElementById("uploadButton");
     const responseDiv = document.getElementById("response");
-    const file = fileInput.files[0];
-    console.log(file);
-    if (file) {
-        // Create a FormData object to send the file
-        formData = new FormData();
-        formData.append('fileInput', file);
+    if (fileInput.files.length > 0 ) {
+        for(var i=0;i < fileInput.files.length;i++){
+            file = fileInput.files[i];
+            // Create a FormData object to send the file
+            formData = new FormData();
+            formData.append('fileInput', file);
 
-        // Make a POST request to your server
-        fetch( url+'/upload', {
-        //fetch('http://192.168.1.18:5000/upload', {
+            // Make a POST request to your server
+            fetch( url+'/upload', {
+             //fetch('http://192.168.1.18:5000/upload', {
             method: 'POST',
             body: formData
         })
@@ -29,6 +29,7 @@ function uploadImage() {
                 responseDiv.innerHTML = `Error uploading file: ${error.message}`;
                 responseDiv.className = "p-3 text-danger-emphasis bg-danger-subtle border border-danger-subtle rounded-3";
             });
+        }
     } else {
         responseDiv.innerHTML = 'Please select a file to upload.';
         responseDiv.className = "p-3 text-danger-emphasis bg-danger-subtle border border-danger-subtle rounded-3";
@@ -47,12 +48,12 @@ function toggleImageSelection(imgElement) {
         SelectedImages.splice(index, 1);
     }
 }
-function createButton() {
+function createButton(content, classname, functionname) {
     const button = document.createElement('button');
-    button.textContent = 'Display selected image';
-    button.className = "btn btn-primary"
+    button.textContent = content
+    button.className = classname
     button.addEventListener('click', function () {
-        sendRequestToDisplay();
+        functionname();
     });
     return button;
 }
@@ -124,19 +125,13 @@ function getAllImages() {
                     imageContainer.appendChild(imgElement);
                     imageGallerydiv.appendChild(imageContainer);
                 });
-                const button1 = createButton();
-                const button2 = document.createElement('button');
-                button2.textContent = 'Delete selected image';
-                button2.className = "btn btn-danger"
-                button2.addEventListener('click', function () {
-                    sendRequestToDelete();
-                });
+                const button1 = createButton('Display selected images', 'btn btn-primary mt-2', sendRequestToDisplay);
+                const button2 = createButton('Delete selected images', 'btn btn-danger my-3', sendRequestToDelete);
                 const errorDiv = document.createElement('errorDiv');
                 errorDiv.id = "errorDiv";
                 imageGallerydiv.appendChild(button1);
                 imageGallerydiv.appendChild(button2);
                 imageGallerydiv.appendChild(errorDiv);
-                document.getElementById("gallerycontainer").className += " bg-success p-3 my-3";
             } else {
                 imageGallerydiv.innerHTML = "<p 'p-3 text-warning-emphasis bg-warning-subtle border border-warning-subtle rounded-3'>No images available.</p>";
             }

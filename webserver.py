@@ -3,7 +3,7 @@ import os
 from apscheduler.schedulers.background import BackgroundScheduler
 import subprocess
 from flask_cors import CORS
-UPLOAD_FOLDER = '/var/www/html/uploads/'
+UPLOAD_FOLDER = 'templates/uploads/'
 KEY='my_KEY'
 FEH_CMD=['/usr/bin/feh','--zoom 100' , '-F','']
 # DF_CMD=['/usr/bin/cmatrix','-m']
@@ -24,10 +24,10 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.secret_key = KEY
 default_command = DF_CMD
 
-default_process = subprocess.Popen(default_command)
+default_process = subprocess.Popen(default_command, shell = True)
 feh_command = FEH_CMD
 #['/usr/bin/feh','--zoom 100','-F', 'Downloads/freeways_ps_sessions.jpg']
-feh_process = subprocess.Popen(feh_command)
+feh_process = subprocess.Popen(feh_command, shell = True)
 scheduler = BackgroundScheduler()
 # Upload an image
 def launch_flask_app():

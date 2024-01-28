@@ -10,24 +10,74 @@
 </head>
 
 <body>
-  <p>Welcom to the Image Loader app:</p>
-  <br />
-  <label for="Uploadimage">Upload image:</label>
-  <input type="file" name="Uploadimage" accept=".jpg, .jpeg, .png" class="form-control" id="fileInput" />
-  <input type="button" class="btn btn-primary m-2" onclick="uploadImage()" value="uploadButton" />
-  <div id="response"></div>
+  <!-- Page Header -->
+  <header>
+    <img src="assets/freeways_logo.png" alt="Freeways_Logo" class="freeways_logo">
+    <h1>Freeways Image Loader App</h1>
+  </header>
+  <!-- -->
 
-  <input type="button" class="btn btn-primary m-2" onclick="getAllImages()" value="fetchallimages" />
+  <!-- Nav Bar -->
+  <ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="overview-tab" data-bs-toggle="tab" data-bs-target="#overview-tab-pane"
+        type="button" role="tab" aria-controls="overview-tab-pane" aria-selected="true">Overview</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="browse-tab" onclick="getAllImages()" data-bs-toggle="tab"
+        data-bs-target="#browse-tab-pane" type="button" role="tab" aria-controls="browse-tab-pane"
+        aria-selected="false">Browse</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="upload-tab" data-bs-toggle="tab" data-bs-target="#upload-tab-pane" type="button"
+        role="tab" aria-controls="upload-tab-pane" aria-selected="false">Upload</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="settings-tab" data-bs-toggle="tab" data-bs-target="#settings-tab-pane" type="button"
+        role="tab" aria-controls="settings-tab-pane" aria-selected="false">Settings</button>
+    </li>
+  </ul>
+  <!---->
 
-  <div class="container text-center" id="gallerycontainer">
-    <div class="row align-items-start" id="imageGallery"></div>
+  <div class="tab-content" id="myTabContent">
+    <!-- OverView Tab-->
+    <div class="tab-pane fade show active" id="overview-tab-pane" role="tabpanel" aria-labelledby="overview-tab"
+      tabindex="0">
+
+    </div>
+    <!---->
+    <!-- Borwse Tab -->
+    <div class="tab-pane fade" id="browse-tab-pane" role="tabpanel" aria-labelledby="browse-tab" tabindex="0">
+      <div class="container text-center gallerycontainer" id="gallerycontainer">
+        <div class="row align-items-start imagegallery" id="imageGallery"></div>
+      </div>
+    </div>
+    <!---->
+    <!-- Upload Tab -->
+    <div class="tab-pane fade" id="upload-tab-pane" role="tabpanel" aria-labelledby="upload-tab" tabindex="0">
+      <div class="container">
+        <h2 class="my-5">Add an image to our libary</h2>
+        <input type="file" name="Uploadimage" accept=".jpg, .jpeg, .png" class="form-control uploadinput" id="fileInput" multiple/>
+        <input type="button" class="btn btn-primary m-2 my-4" onclick="uploadImage()" value="Upload"/>
+        <div id="response"></div>
+      </div>
+    </div>
+    <!---->
+    <!-- Settings Tab -->
+    <div class="tab-pane fade" id="settings-tab-pane" role="tabpanel" aria-labelledby="settings-tab" tabindex="0">
+      <div class="container">
+        <input type="button" id="stopButton" onclick="stopImageSwitching()" class="btn btn-danger" value="Stop
+          Image Switching" />
+        <div id="stopimagediv"></div>
+      </div>
+    </div>
+    <!-- -->
   </div>
-  <input type="button" id="stopButton" onclick="stopImageSwitching()" class="btn btn-danger" value="Stop
-      Image Switching" />
-  <div id="stopimagediv"></div>
+
+
   <script src="upload.js"></script>
   <script src="bootstrap/js/bootstrap.min.js"></script>
   <script src="bootstrap/js/bootstrap.js"></script>
 </body>
-</html>
 
+</html>
