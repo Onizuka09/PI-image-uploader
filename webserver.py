@@ -3,7 +3,7 @@ import os
 from apscheduler.schedulers.background import BackgroundScheduler
 import subprocess
 from flask_cors import CORS
-UPLOAD_FOLDER = 'templates/uploads/'
+UPLOAD_FOLDER = '/var/www/html/uploads/'
 KEY='my_KEY'
 FEH_CMD=['/usr/bin/feh','--zoom 100' , '-F','']
 # DF_CMD=['/usr/bin/cmatrix','-m']
@@ -24,10 +24,10 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.secret_key = KEY
 default_command = DF_CMD
 
-default_process = subprocess.Popen(default_command, shell = True)
+default_process = subprocess.Popen(default_command)
 feh_command = FEH_CMD
 #['/usr/bin/feh','--zoom 100','-F', 'Downloads/freeways_ps_sessions.jpg']
-feh_process = subprocess.Popen(feh_command, shell = True)
+feh_process = subprocess.Popen(feh_command)
 scheduler = BackgroundScheduler()
 # Upload an image
 def launch_flask_app():
@@ -114,7 +114,7 @@ def displayImage():
     return jsonify({"message": "Invalid request"}), 400
 
 @app.route('/deleteImage', methods=['POST'])
-def deleteImae():
+def deleteImage():
     if request.method == 'POST':
         data = request.get_json()
         selected_images = data["SelectedImages"]

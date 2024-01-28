@@ -1,0 +1,150 @@
+[33mcommit ead6f83457fa7315514f97af37bfab274619bd96[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m
+Author: bibots101 <wassimlourimi@gmail.com>
+Date:   Sun Jan 28 13:36:16 2024 +0100
+
+    Better UI + Added the feature to upload multiple images
+
+[33mcommit 9c0cb8af190e03629344a17e06bf5facf24ceec4[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Merge: caa2ee0 2429c1f
+Author: Lourimi Wassim <118607155+bibots101@users.noreply.github.com>
+Date:   Sun Jan 28 11:36:51 2024 +0100
+
+    Merge branch 'main' into main
+
+[33mcommit 2429c1f21717837d374094eb9774b5dfd9bdaa12[m
+Author: Onizuka09 <smokthar925@gmail.com>
+Date:   Sun Jan 28 01:25:28 2024 +0100
+
+    updated gitifnore
+
+[33mcommit f37d2deaf0a09869256232c0f7e9fd0781617cd4[m
+Author: Onizuka09 <smokthar925@gmail.com>
+Date:   Sun Jan 28 01:23:07 2024 +0100
+
+    remove files from tracking
+
+[33mcommit bb7ec1934fcf9d8af2480e495b43bc4c0d6012b9[m
+Author: Onizuka09 <smokthar925@gmail.com>
+Date:   Sun Jan 28 01:17:29 2024 +0100
+
+    update
+
+[33mcommit 51c07ee3617a38de4cc263d617c29329a007b1d6[m
+Author: Onizuka09 <smokthar925@gmail.com>
+Date:   Sun Jan 28 01:15:29 2024 +0100
+
+    remove files from tracking
+
+[33mcommit a2876dfb2d964fa18f1284f9f4917cceed891ad9[m
+Author: Onizuka09 <smokthar925@gmail.com>
+Date:   Sun Jan 28 01:12:14 2024 +0100
+
+    update
+
+[33mcommit f4154a84cfeafdda9d6176d113f7a1e905bba61c[m
+Author: Onizuka09 <smokthar925@gmail.com>
+Date:   Sun Jan 28 01:11:07 2024 +0100
+
+    updated git ignore
+
+[33mcommit 63bd2540f950c7f29445af4ac75064f89950a6a0[m
+Author: Onizuka09 <smokthar925@gmail.com>
+Date:   Sun Jan 28 01:09:18 2024 +0100
+
+    contains images
+
+[33mcommit 57223f5cd8b9732930a36d29ac3fe7d86e77a70c[m
+Author: Onizuka09 <smokthar925@gmail.com>
+Date:   Sun Jan 28 00:49:11 2024 +0100
+
+    rupdated the installation and fixed some bugs
+
+[33mcommit efe060ba2271f4a66f699fbd4a69f29fd61d7f7a[m
+Author: Onizuka09 <smokthar925@gmail.com>
+Date:   Sat Jan 27 16:53:15 2024 +0100
+
+    update install bas script'
+
+[33mcommit f2a5fe69fb1447b53c3baa12843e7469fd2276b9[m
+Author: Onizuka09 <smokthar925@gmail.com>
+Date:   Wed Jan 24 20:20:48 2024 +0100
+
+    update
+
+[33mcommit caa2ee0a93882a091196555dd961022051ce61bf[m
+Author: Lourimi Wassim <wassimlourimi@gmail.com>
+Date:   Fri Oct 13 10:55:57 2023 +0100
+
+    third commit
+    
+    Added the feature to delete images from webserver storage
+
+[33mcommit a0b5664ee6659ac3002b5aa1d3d4aa83ca407b7f[m
+Author: bibots101 <wassimlourimi@gmail.com>
+Date:   Fri Oct 6 22:55:25 2023 +0100
+
+    wallpaper playlist
+    
+    added wallpaper playlist if you select more than 1 image
+
+[33mcommit 62922707277f127b1eed8e55c2c6bdf1ee879068[m
+Author: bibots101 <wassimlourimi@gmail.com>
+Date:   Fri Oct 6 18:02:31 2023 +0100
+
+    new features
+    
+    Added History fetch + display images on website + some style.
+    added the ability to select an image and request the web server to make it as a wallpaper.
+    added bootstrap to the project
+
+[33mcommit 4331989aa824e82231ba5aa15d5b56020248e123[m
+Author: bibots101 <wassimlourimi@gmail.com>
+Date:   Fri Oct 6 00:00:00 2023 +0100
+
+    Upload httprequest
+    
+    I made a javascript function that saves the image uploaded into a FormData stores it in the  httprequest body and send it to the web server that's configured to receive it correctly
+
+[33mcommit dd9c8ae1e9c4f6b4b07763670bbb53c70e84ac0d[m
+Author: Moktar <112946436+Onizuka09@users.noreply.github.com>
+Date:   Wed Oct 4 20:54:33 2023 +0100
+
+    Update README.md
+
+[33mcommit 2e977411e0a68f4f2772a436647c950d710b812f[m
+Author: Onizuka09 <smokthar925@gmail.com>
+Date:   Wed Oct 4 20:49:04 2023 +0100
+
+    updated readme
+    deleted master branch
+
+[33mcommit b17734ea6d2e6f93058eb0c12fb585583025f742[m
+Author: Onizuka09 <smokthar925@gmail.com>
+Date:   Wed Oct 4 20:41:51 2023 +0100
+
+    update readme
+
+[33mcommit 16a1141f786fa11775025a070398be2b2b12c6c4[m
+Author: Onizuka09 <smokthar925@gmail.com>
+Date:   Wed Oct 4 20:38:39 2023 +0100
+
+    update webserver.py file
+
+[33mcommit db52b4404e9a988b9f82910b0cd34191ea7f18a2[m
+Merge: 4405196 ef8450b
+Author: Onizuka09 <smokthar925@gmail.com>
+Date:   Wed Oct 4 20:33:41 2023 +0100
+
+    merged master with main
+
+[33mcommit ef8450be33ff289262005fcef2f468abb7c852dc[m
+Author: Onizuka09 <smokthar925@gmail.com>
+Date:   Wed Oct 4 20:15:05 2023 +0100
+
+    fisrt commit
+
+[33mcommit 44051967aa4539ae579d87c99de66a6c95c501f8[m
+Author: Moktar <112946436+Onizuka09@users.noreply.github.com>
+Date:   Wed Oct 4 20:09:25 2023 +0100
+
+    Initial commit
