@@ -17,3 +17,13 @@ ssh pi@freeways-pi.local
 
 
 this video hepd me : https://www.youtube.com/watch?v=MGDhMaWOBWs
+---------------- new way ------------- 
+on your computer network configuration ethernet set a manual 
+set an ip (192.168.0.0,255.255.255.0 ) 
+go to raspi-config: enable ssh 
+method1: 
+in the pi get the hostname using: 
+hostname -I: this command will return an ip adress 
+the connect using : ssh pi@ip_adress
+method2: 
+ssh pi@raspberrypi.local
