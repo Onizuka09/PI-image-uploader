@@ -1,3 +1,8 @@
+ip="127.0.0.1"; 
+port="5000"; 
+url ="http://"+ip+":"+port; 
+uploads_folder="uploads/"; 
+console.log(url); 
 function uploadImage() {
     const fileInput = document.getElementById("fileInput");
     const uploadButton = document.getElementById("uploadButton");
@@ -10,7 +15,8 @@ function uploadImage() {
         formData.append('fileInput', file);
 
         // Make a POST request to your server
-        fetch('http://127.0.0.1:5000/upload', {
+        fetch( url+'/upload', {
+        //fetch('http://192.168.1.18:5000/upload', {
             method: 'POST',
             body: formData
         })
@@ -53,7 +59,9 @@ function createButton() {
 function sendRequestToDisplay() {
     const errorDiv = document.getElementById("errorDiv");
     // Send a request to the server with the selected image
-    fetch('http://127.0.0.1:5000/displayImage', {
+	
+    fetch( url+'/displayImage', {
+    //fetch('http://192.168.1.18:5000/displayImage', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -73,7 +81,7 @@ function sendRequestToDisplay() {
             errorDiv.className = "p-3 text-success-emphasis bg-success-subtle border border-success-subtle rounded-3";
         })
         .catch(function (error) {
-            errorDiv.innerHTML = `Error: ${error}}`;
+            errorDiv.innerHTML = `Error: ${imageerror}}`;
             errorDiv.className = "p-3 text-danger-emphasis bg-danger-subtle border border-danger-subtle rounded-3";
         });
 }
@@ -81,7 +89,7 @@ function getAllImages() {
     const imageGallerydiv = document.getElementById("imageGallery");
     imageGallerydiv.innerHTML = "";
     // Fetch the list of images from your Flask server
-    fetch('http://127.0.0.1:5000/getAllImages', {
+    fetch(url+'/getAllImages', {
         method: 'GET',
     })
         .then(function (response) {
@@ -96,7 +104,9 @@ function getAllImages() {
             if (data.images && data.images.length > 0) {
                 data.images.forEach(function (image) {
                     var imgElement = document.createElement('img');
-                    imgElement.src = '../uploads/' + image;
+		    
+                    imgElement.src = uploads_folder + image;
+		    console.log(imgElement.src)	
                     imgElement.alt = image;
                     imgElement.classList.add('galleryImage');
                     imgElement.className = "m-2";
@@ -139,7 +149,7 @@ function getAllImages() {
 }
 function stopImageSwitching() {
     const stopimagediv = document.getElementById("stopimagediv")
-    fetch('http://127.0.0.1:5000/stopImageSwitching', {
+    fetch(url+'/stopImageSwitching', {
         method: 'POST',
     })
         .then(function (response) {
@@ -162,7 +172,7 @@ function stopImageSwitching() {
 function sendRequestToDelete() {
     const errorDiv = document.getElementById("errorDiv");
     // Send a request to the server with the selected image
-    fetch('http://127.0.0.1:5000/deleteImage', {
+    fetch(url+'/deleteImage', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -187,3 +197,4 @@ function sendRequestToDelete() {
         });
 
 }
+

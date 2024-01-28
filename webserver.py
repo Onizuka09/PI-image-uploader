@@ -3,21 +3,43 @@ import os
 from apscheduler.schedulers.background import BackgroundScheduler
 import subprocess
 from flask_cors import CORS
-UPLOAD_FOLDER = 'uploads'
+UPLOAD_FOLDER = '/var/www/html/uploads/'
+KEY='my_KEY'
+FEH_CMD=['/usr/bin/feh','--zoom 100' , '-F','']
+# DF_CMD=['/usr/bin/cmatrix','-m']
+DF_CMD=['/usr/bin/pwd','']
+
+bind_adress='0.0.0.0:5000'
+
+GUINICORN_CMD = ['gunicorn',
+        '-w', '4',            # Number of worker processes
+        '-b', bind_adress,  # Bind address and port
+        'webserver:app'  # Replace with your actual app module and instance
+    ]
 app = Flask(__name__)
 CORS(app)
 
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.secret_key = 'moktar'
-default_command = ['hollywood','--zoom100','-F','']
-default_process = subprocess.Popen(default_command, shell =True)
-feh_command = ['feh', '--zoom 100', '-F', '']
-feh_process = subprocess.Popen(feh_command, shell=True)
+app.secret_key = KEY
+default_command = DF_CMD
+
+default_process = subprocess.Popen(default_command)
+feh_command = FEH_CMD
+#['/usr/bin/feh','--zoom 100','-F', 'Downloads/freeways_ps_sessions.jpg']
+feh_process = subprocess.Popen(feh_command)
 scheduler = BackgroundScheduler()
-
 # Upload an image
-
+def launch_flask_app():
+    # Specify the command to launch Gunicorn
+    command = GUINICORN_CMD
+    try:
+        # Launch Gunicorn using subprocess
+        subprocess.run(command, check=True)
+    except subprocess.CalledProcessError as e:
+        print(f"Error launching Gunicorn: {e}")
+    except KeyboardInterrupt:
+        print("Server terminated by user")
 
 @app.route('/upload', methods=['POST'])
 def upload():
@@ -49,6 +71,7 @@ def get_all_images():
     for filename in os.listdir(app.config['UPLOAD_FOLDER']):
         if filename.lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.bmp')):
             image_files.append(filename)
+    print(image_files)
     return image_files
 # get all images
 
@@ -79,8 +102,8 @@ def displayImage():
                 app.config['UPLOAD_FOLDER'], selected_images[0])
             if (feh_process):
                 feh_process.terminate()
-            feh_command[3] = path
-            feh_process = subprocess.Popen(feh_command, shell=True)
+            feh_command[2] = path
+            feh_process = subprocess.Popen(feh_command)
             print("displayed single image successfuly")
             return jsonify({"message": "Selected Image Displayed"}), 200
         else:
@@ -113,7 +136,7 @@ def ImageSwitcher(selectedImages):
     if (feh_process):
         feh_process.terminate()
     feh_command[3] = path
-    feh_process = subprocess.Popen(feh_command, shell=True)
+    feh_process = subprocess.Popen(feh_command)
     element = selectedImages.pop(0)
     selectedImages.append(element)
     print("image switched")
@@ -131,6 +154,9 @@ def stopImageSwitching():
 
 
 if __name__ == '__main__':
-    #  sio.run(app,host='0.0.0.0',debug=True)
+    # os.environ['DISPLAY']= ':0'
     scheduler.start()
     app.run(host='0.0.0.0')
+    #launch_flask_app()
+    # print(os.environ['DISPLAY'])
+

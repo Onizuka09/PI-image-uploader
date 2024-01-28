@@ -1,0 +1,26 @@
+{
+ "python_path": "$(pwd)", 
+ "uploads_file":"/var/www/html/", 
+ "systemd_path":"/etc/systemd/",
+ "frontend_path":"/var/www/html/",
+  "commands_path":{
+    "feh":"/usr/bin/feh",
+    "cmatrix":"/usr/bin/cmatrix"    
+  },
+  "args_commands":{
+   "feh_args": {
+       "agr1":"--zoom 100",
+       "agr2":"-F"
+  },
+  "cmatrix_agrs":{
+      "agr1":"-m"
+  }
+  },
+  "server_settings":{
+	"ip_address":"127.0.0.1",	
+	"port":"5000",
+    "bind_address":"0.0.0.0"
+    },
+	"Flask_secret_key":"my_KEY"
+	
+}
