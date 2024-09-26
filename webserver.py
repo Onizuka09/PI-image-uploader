@@ -114,7 +114,7 @@ def displayImage():
     return jsonify({"message": "Invalid request"}), 400
 
 @app.route('/deleteImage', methods=['POST'])
-def deleteImae():
+def deleteImage():
     if request.method == 'POST':
         data = request.get_json()
         selected_images = data["SelectedImages"]
