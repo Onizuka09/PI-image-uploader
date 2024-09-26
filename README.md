@@ -1,6 +1,7 @@
 # PI-image-uploader
 This is an IoT project: it permits a user to access a web app to upload an image, gif or a panorama and it will be displayed in the screen. 
 
+![image](./doc/frontend2.png)
 ![image](./doc/frontend.png)
 
 ## Notes 
